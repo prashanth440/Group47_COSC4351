@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ABC Restaurant1</title>
+    <script src = "index.js"></script>
   </head>
   <body>
     <form>
@@ -28,7 +29,7 @@
      
       <!-- MAKE SURE TO MAKE BILLING ADDRESS SAME AS MAILING ADDRESS IF CHECKBOX IS MARKED-->
       
-      <input type="checkbox" id="mailsamebill" name="billAddress">
+      <input type="checkbox" id="mailsamebill" name="billAddress" onclick="applyText()">
       <smalllabel for="billAddress"><b>Check Box if Billing address same as mailing address.</b> </smalllabel><br>
       
       <label for="billaddress"><b>Billing Address</b></label> <br>

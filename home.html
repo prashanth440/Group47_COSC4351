@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ABC Restaurant1</title>
+    <script src = "index.js"></script>
   </head>
   <body>
-    <h1>Welcome to SAS Resturant</h1>\
+    <h1>Welcome to SAS Resturant</h1>
     <br>
     <h2>To make a reservation please log in or sign in as a guest.</h2>  
     
@@ -20,7 +21,7 @@
   <!-- <form action="action_page.php" method="post">-->
     <div class="container">
       <label for="uname"><b><center>Username</center></b></label>
-      <center><input type="text" id="usernamme" placeholder="Enter Username" name="uname" required></label></center>
+      <center><input type="text" id="username" placeholder="Enter Username" name="uname" required></label></center>
       <br>
       <br>
       <label for="psw"><b><center>Password</center> </b></label>
@@ -29,7 +30,7 @@
    
       <!-- <center><span class="psw">Forgot <a href="#">password?</a></span></center> -->
       <br>
-      <center><button type="submit">Login</button></center>
+      <center><button onclick="checkUser(document.getElementById('username').value, document.getElementById('password').value)" type = "button">Login</button></center>
       <a href = "newuser.html"><center><button type="reg">Register</button></center></a>
       <a href = "guestlogin.html"><center><button type="guestlogin">Sign in as guest</button></center></a>
     </div>
