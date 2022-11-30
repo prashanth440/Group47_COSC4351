@@ -12,7 +12,8 @@ var counter = 0;
 
 Updates as of Tuesday Nov. 29th:
 1) Still working on the database print function and user input from the registration form
-2) Validation seems to work at login, need to test some more
+2) Validation works fully on login page
+3) Working on input validation while registering and table reservation system
 
 Dynamic arrays are defined above (work still in progress)
 1) checkUser
@@ -48,29 +49,37 @@ function checkUserName(uName, username)
 {
   let flag = true;
   //console.log(username.length);
-  for (var i = 0; i < username.length; i++)
-  {
-    if (username[i].localeCompare(uName) != 0)
-      flag = false;
-  }
-  if (flag == true)
-    return true;
+  if (username.length == 0)
+    return false
   else
-    return false;
+  {
+    for (var i = 0; i < username.length; i++) {
+      if (username[i].localeCompare(uName) != 0)
+        flag = false;
+    }
+    if (flag == true)
+      return true;
+    else
+      return false;
+  }
 }
 
 function checkPass(uPass, password)
 {
   let flag = true;
-  for (var i = 0; i < password.length; i++)
-  {
-    if (password[i].localeCompare(uPass) != 0)
-      flag = false;
-  }
-  if (flag == true)
-    return true;
-  else
+  if (password.length == 0)
     return false;
+  else
+  {
+    for (var i = 0; i < password.length; i++) {
+      if (password[i].localeCompare(uPass) != 0)
+        flag = false;
+    }
+    if (flag == true)
+      return true;
+    else
+      return false;
+  }
 }
 
 function addNewUser(guestName, username, password, mailingAddress, billingAddress, dinerNumber, counter, paymentMethod)
