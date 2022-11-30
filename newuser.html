@@ -36,7 +36,7 @@
       <input type="text" id="billaddress" placeholder="Enter Full Billing Address" name="billaddress" required> <br>
       
       <label for="dinenum"><b>Diner Number</b></label> <br>
-      <input type="text" id="dinenum" placeholder="Enter preferred Diner Number" name="dinenum" required> <br>
+      <input type="text" id="dinenum" placeholder="Enter preferred Diner Number" onfocus = "autoDinerNum()" name="dinenum" required> <br>
       
       <label for="earnpts"><b>Points Earned</b></label> <br>
       <input type="text" id="earnpts" placeholder="Earned points" name="earnpts"> <br>
@@ -57,7 +57,7 @@
       
       <hr>
 
-      <button type="submit" class="registerbtn">Register</button>
+      <button type="submit" class="registerbtn" onclick = "addNewUser(guestName, username, password, mailingAddress, billingAddress, dinerNumber, counter, paymentMethod)">Register</button>
     </div>
   </center>
     <div class="container signin">
