@@ -14,7 +14,7 @@
           <p>Please fill in this form to reserve a table.</p>
           <hr>
           <center>
-          <label for="name"><b>Name</b></label> <br>
+          <label for="name"><b>Name</b></label> <br> <br>
           <input type="text" id="guestname" placeholder="Enter Name" name="guestname" required> <br>
     
           <label for="guestphone"><b>Phone Number</b></label><br>
@@ -23,16 +23,29 @@
           <label for="email"><b>Email Address</b></label><br>
           <input type="text" id="email" placeholder="Enter Email Address" name="email" required><br>
     
-          <label for="res">Choose Reservation Date and Time:</label>
+          <label for="res"><b>Choose Reservation Date and Time:</b></label>
             <input type="datetime-local" id="res" name="res"> <br>
             <!--  <input type="submit"> -->
          
-          <label for="numguests"><b>Number of Guests</b></label> <br>
-          <input type="text" id="numguests" placeholder="Enter Number of Guests" name="numguests" required> <br>
-          
+          <label for="numguests"><b>Number of Guests</b></label>
+          <input type="number" id="numguests" name="numguests" min="1" max="10" required> <br> <br>
+
+          <label><b>Enter number of each type of table needed. </b></label><br>
+          <label style="font-size: 18px">Please make sure tables add up to your number of guests!</label> <br> <br>
+          <g for="numtables">Number of 2 Seater Tables:</g>
+          <input type="number" id="numtwotables" name="numtwotables" min="1" max="10" required>
+
+          <g for="numtables">Number of 4 Seater Tables:</g>
+            <input type="number" id="numfourtables" name="numfourtables" min="1" max="10" required>
+
+            <g for="numtables">Number of 6 Seater Tables:</g>
+            <input type="number" id="numsixtables" name="numsixtables" min="1" max="10" required>
+
           <hr>
-    
+          <br>
           <button type="submit" class="submit">Submit</button>
+          <br>
+          <br>
           <p><a href="home.html">Back to Home Page</a></p>
         </div>
       </center>
