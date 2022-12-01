@@ -6,14 +6,13 @@ var billingAddress = [];
 var dinerNumber = [];
 var pointsEarned = [];
 var paymentMethod = [];
-var counter = 0;
 
 /*
 
-Updates as of Tuesday Nov. 29th:
-1) Still working on the database print function and user input from the registration form
+Updates as of Tuesday Nov. 30th:
+1) Input from registration works, data stored in dynamic array and can be viewed in the console local storage during demo
 2) Validation works fully on login page
-3) Working on input validation while registering and table reservation system
+3) Input validation completed and works fully for the registration page
 
 Dynamic arrays are defined above (work still in progress)
 1) checkUser
@@ -32,9 +31,12 @@ checkUser aunthenticates the username and password entered on the login page
 5) ApplyText - On the registration page, if the checkbox is checked, autocomplete the billing address else clear the text field.
 
 */
+
+
+
 function checkUser(uName, uPass)
 {
-  if (checkUserName(uName, username) == true && checkPass(uPass, password) == true)
+  if (checkUserName(uName) == true && checkPass(uPass) == true)
   {
     alert("Authentication successful! Click 'Close' to continue.");
     window.location.href = "userReservation.html";
@@ -45,17 +47,19 @@ function checkUser(uName, uPass)
   }
 }
 
-function checkUserName(uName, username)
+function checkUserName(uName)
 {
-  let flag = true;
-  //console.log(username.length);
+  var flag;
   if (username.length == 0)
     return false
   else
   {
     for (var i = 0; i < username.length; i++) {
-      if (username[i].localeCompare(uName) != 0)
-        flag = false;
+      if (username[i].localeCompare(uName) == 0)
+      { 
+        flag = true;
+        break;
+      }
     }
     if (flag == true)
       return true;
@@ -64,16 +68,21 @@ function checkUserName(uName, username)
   }
 }
 
-function checkPass(uPass, password)
+function checkPass(uPass)
 {
-  let flag = true;
+  var flag;
   if (password.length == 0)
     return false;
   else
   {
-    for (var i = 0; i < password.length; i++) {
-      if (password[i].localeCompare(uPass) != 0)
-        flag = false;
+    for (var i = 0; i < password.length; i++)
+    {
+      if (password[i].localeCompare(uPass) == 0)
+      {
+        flag = true;
+        break;
+      }
+        
     }
     if (flag == true)
       return true;
@@ -82,19 +91,66 @@ function checkPass(uPass, password)
   }
 }
 
-function addNewUser(guestName, username, password, mailingAddress, billingAddress, dinerNumber, counter, paymentMethod)
+function addNewUser()
 {
-  // Get Form Data, then push to dynamic arrays
-  guestName[counter] = document.getElementById("gname").value;
-  username[counter] = document.getElementById("newusername").value;
-  password[counter] = document.getElementById("newpass").value;
-  mailingAddress[counter] = document.getElementById("mailaddress").value;
-  billingAddress[counter] = document.getElementById("billaddress").value;
-  dinerNumber[counter] = document.getElementById("dinenum");
-  paymentMethod[counter] = paymentTypeVal();
-  counter++;
+  // Get Form Data, then push to dynamic arrays and local storage
+  guestName = JSON.parse(localStorage.getItem('guestName')) || [];
+  guestName.push(document.getElementById("gname").value);
+  localStorage.setItem('guestName', JSON.stringify(guestName));
+
+  username = JSON.parse(localStorage.getItem('userName')) || [];
+  username.push(document.getElementById("newusername").value);
+  localStorage.setItem('userName', JSON.stringify(username));
+  
+  password = JSON.parse(localStorage.getItem('Password')) || [];
+  password.push(document.getElementById("newpass").value);
+  localStorage.setItem('Password', JSON.stringify(password));
+
+  mailingAddress = JSON.parse(localStorage.getItem('mailingAddress')) || [];
+  mailingAddress.push(document.getElementById("mailaddress").value);
+  localStorage.setItem('mailingAddress', JSON.stringify(mailingAddress));
+
+  billingAddress = JSON.parse(localStorage.getItem('billingAddress')) || [];
+  billingAddress.push(document.getElementById("billaddress").value);
+  localStorage.setItem('billingAddress', JSON.stringify(billingAddress));
+
+  dinerNumber = JSON.parse(localStorage.getItem('dinerNumber')) || [];
+  dinerNumber.push(document.getElementById("dinenum").value);
+  localStorage.setItem('dinerNumber', JSON.stringify(dinerNumber));
+
+  
+  paymentMethod = JSON.parse(localStorage.getItem('paymentMethod')) || [];
+  if (paymentTypeVal() == 1)
+  {
+    paymentMethod.push("Cash");
+  }
+  else if (paymentTypeVal() == 2)
+  {
+    paymentMethod.push("Credit");
+  }
+  else if (paymentTypeVal() == 3)
+  {
+    paymentMethod.push("Check");
+  }
+  else
+  {
+    paymentMethod.push("No payment method selected");
+  }
+  localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
 }
 
+function retrieveData()
+{
+  guestName = JSON.parse(localStorage.getItem('guestName')) || [];
+  username = JSON.parse(localStorage.getItem('userName')) || [];
+  password = JSON.parse(localStorage.getItem('Password')) || [];
+  mailingAddress = JSON.parse(localStorage.getItem('mailingAddress')) || [];
+  billingAddress = JSON.parse(localStorage.getItem('billingAddress')) || [];
+  dinerNumber = JSON.parse(localStorage.getItem('dinerNumber')) || [];
+  paymentMethod = JSON.parse(localStorage.getItem('paymentMethod')) || [];
+}
+
+retrieveData();
 function applyText()
 {
   if(check() == true)
@@ -127,12 +183,34 @@ function autoDinerNum()
   document.getElementById("dinenum").value = Math.floor(Math.random() * 10001); // Assign random number as a diner no.
 }
 
-function printDataBase(guestName ,username, password, mailingAddress, billingAddress, counter, dinerNumber, paymentMethod)
+function printDataBase()
 {
   console.log("\tGuest Name\t\tUsername\t\tPassword\t\tMailingAddress\t\tBilling Address\t\tDiner Number\t\tPaymentMethod\n");
-  for (var i = 0; i < counter; i++)
+  for (var i = 0; i < username.length; i++)
   {
-    console.log((i + 1) + ")\t" + guestName[i] + "\t\t" + username[i] + "\t\t\t\t" + password[i] + "\t\t\t\t\t" + mailingAddress[i] + "\t\t" + billingAddress[i]);
-    console.log("\t\t" + dinerNumber[i] + "\t\t" + paymentMethod[i] + "\n");
+    console.log((i + 1) + ")\t" + guestName[i] + "\t\t\t\t\t" + username[i] + "\t\t\t\t" + password[i] + "\t\t\t\t\t" + mailingAddress[i] + "\t\t\t\t" + billingAddress[i] + "\t\t\t\t" + dinerNumber[i] + "\t\t\t\t" + paymentMethod[i] + "\n");
+  }
+}
+
+function checkValues() {
+  if (document.getElementById("gname").value == "")
+  {
+    alert("Please enter your name.");
+  }
+  else if (document.getElementById("newusername").value == "")
+  {
+    alert("Please enter your username");
+  }
+  else if (document.getElementById("newpass").value == "")
+  {
+    alert("Please enter your password");
+  }
+  else if (document.getElementById("mailaddress").value == "")
+  {
+    alert("Please enter your mailaddress or billing address.");
+  }
+  else
+  {
+    addNewUser();
   }
 }
