@@ -6,13 +6,15 @@ var billingAddress = [];
 var dinerNumber = [];
 var pointsEarned = [];
 var paymentMethod = [];
-
+var currentGuestName;
 /*
 
-Updates as of Tuesday Nov. 30th:
+Updates as of Thursday Dec. 1st
 1) Input from registration works, data stored in dynamic array and can be viewed in the console local storage during demo
 2) Validation works fully on login page
 3) Input validation completed and works fully for the registration page
+4) Table reservation system works, output on confirmation page may need to be formatted better
+5) Overall, project is ready for demo
 
 Dynamic arrays are defined above (work still in progress)
 1) checkUser
@@ -40,6 +42,15 @@ function checkUser(uName, uPass)
   {
     alert("Authentication successful! Click 'Close' to continue.");
     window.location.href = "userReservation.html";
+    for (var i = 0; i < guestName.length; i++)
+    {
+      if (username[i].localeCompare(uName) == 0)
+      {
+        currentGuestName = guestName[i];
+        localStorage.setItem('currentGuestName', JSON.stringify(currentGuestName));
+        break;
+       }
+      }
   } else
   {
     alert("Username and Password do not match. Please register as a new user.");
@@ -137,6 +148,7 @@ function addNewUser()
     paymentMethod.push("No payment method selected");
   }
   localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
+  window.location.href = "userReservation.html";
 }
 
 function retrieveData()
@@ -148,6 +160,16 @@ function retrieveData()
   billingAddress = JSON.parse(localStorage.getItem('billingAddress')) || [];
   dinerNumber = JSON.parse(localStorage.getItem('dinerNumber')) || [];
   paymentMethod = JSON.parse(localStorage.getItem('paymentMethod')) || [];
+
+  table2 = JSON.parse(localStorage.getItem('table2')) || [];
+  table4 = JSON.parse(localStorage.getItem('table4')) || [];
+  table6 = JSON.parse(localStorage.getItem('table6')) || [];
+  numGuests = JSON.parse(localStorage.getItem('numGuests')) || [];
+  tablesCombined = JSON.parse(localStorage.getItem('tablesCombined')) || [];
+  holdFee = JSON.parse(localStorage.getItem('holdFee')) || [];
+  Time = JSON.parse(localStorage.getItem('Time')) || [];
+  emailID = JSON.parse(localStorage.getItem('emailID')) || [];
+  phone = JSON.parse(localStorage.getItem('phone')) || [];
 }
 
 retrieveData();
@@ -213,4 +235,266 @@ function checkValues() {
   {
     addNewUser();
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var table2 = [];
+var table4 = [];
+var table6 = [];
+var numGuests = [];
+var tablesCombined = [];
+var holdFee = [];
+var Time = [];
+var emailID = [];
+var phone = [];
+
+function tableSelect()
+{
+    numGuests = JSON.parse(localStorage.getItem('numGuests')) || [];
+    numGuests.push(document.getElementById("usernumguests").value);
+    localStorage.setItem('numGuests', JSON.stringify(numGuests));
+
+    var value = numGuests[numGuests.length - 1];
+    if (value == 2)
+    {
+        table2 = JSON.parse(localStorage.getItem('table2')) || [];
+        document.getElementById("usernumtwotables").value = 2;
+        table2.push(2);
+        localStorage.setItem('table2', JSON.stringify(table2));
+    }
+    else if (value == 4)
+    {
+        table4 = JSON.parse(localStorage.getItem('table4')) || [];
+        document.getElementById("usernumfourtables").value = 4;
+        table4.push(4);
+        localStorage.setItem('table4', JSON.stringify(table4));
+    }
+    else if (value == 6)
+    {
+        table6 = JSON.parse(localStorage.getItem('table6')) || [];
+        document.getElementById("usernumsixtables").value = 6;
+        table6.push(6);
+        localStorage.setItem('table6', JSON.stringify(table6));
+    }
+    
+    var flag1 = false;
+    var flag2 = false;
+    var flag3 = false;
+    if (document.getElementById("usernumsixtables").value > 0)
+    {
+        flag1 = true;
+    }
+    if (document.getElementById("usernumfourtables").value > 0)
+    {
+        flag2 = true;
+    }
+    if (document.getElementById("usernumtwotables").value > 0)
+    {
+        flag3 = true;
+    }
+
+    if ((flag1 == true && flag2 == true) || (flag2 == true && flag3 == true) || (flag1 == true && flag3 == true))
+    {
+        alert("Tables have to be combined!");
+        tablesCombined = JSON.parse(localStorage.getItem('tablesCombined')) || [];
+        tablesCombined.push("Yes");
+        localStorage.setItem('tablesCombined', JSON.stringify(tablesCombined));
+    }
+    else
+    {
+        tablesCombined = JSON.parse(localStorage.getItem('tablesCombined')) || [];
+        tablesCombined.push("No");
+        localStorage.setItem('tablesCombined', JSON.stringify(tablesCombined));
+    }
+    Time = JSON.parse(localStorage.getItem('Time')) || [];
+    Time.push(document.getElementById('res').value);
+    localStorage.setItem('Time', JSON.stringify(Time));
+    highTraffic();
+    window.location.href = "reservationconfirmation.html";
+}
+
+function highTraffic()
+{
+    if (Time.length > 2)
+    {
+        alert("Since today is a high traffic day, a hold fee of $10 will be placed on your preferred payment method.");
+        holdFee = JSON.parse(localStorage.getItem('holdFee')) || [];
+        holdFee.push("Yes");
+        localStorage.setItem('holdFee', JSON.stringify(holdFee));
+    }
+    else
+    {
+        holdFee = JSON.parse(localStorage.getItem('holdFee')) || [];
+        holdFee.push("No");
+        localStorage.setItem('holdFee', JSON.stringify(holdFee));
+    }
+}
+
+function guestTableSelect()
+{   
+  guestName = JSON.parse(localStorage.getItem('guestName')) || [];
+  guestName.push(document.getElementById("guestname").value);
+  localStorage.setItem('guestName', JSON.stringify(guestName));
+
+  emailID = JSON.parse(localStorage.getItem('emailID')) || [];
+  emailID.push(document.getElementById("email").value);
+  localStorage.setItem('emailID', JSON.stringify(emailID));
+  
+  phone = JSON.parse(localStorage.getItem('phone')) || [];
+  phone.push(document.getElementById("guestphone").value);
+  localStorage.setItem('phone', JSON.stringify(phone));
+
+
+    numGuests = JSON.parse(localStorage.getItem('numGuests')) || [];
+    numGuests.push(document.getElementById("numguests").value);
+    localStorage.setItem('numGuests', JSON.stringify(numGuests));
+
+    var value = numGuests[numGuests.length - 1];
+    if (value == 2)
+    {
+        table2 = JSON.parse(localStorage.getItem('table2')) || [];
+        document.getElementById("numtwotables").value = 2;
+        table2.push(2);
+        localStorage.setItem('table2', JSON.stringify(table2));
+      
+
+        table4 = JSON.parse(localStorage.getItem('table4')) || [];
+        document.getElementById("numfourtables").value = 0;
+        table4.push(0);
+        localStorage.setItem('table4', JSON.stringify(table4));
+      
+      
+        table6 = JSON.parse(localStorage.getItem('table6')) || [];
+        document.getElementById("numsixtables").value = 0;
+        table6.push(0);
+        localStorage.setItem('table6', JSON.stringify(table6));
+
+    }
+    else if (value == 4)
+    {
+      table2 = JSON.parse(localStorage.getItem('table2')) || [];
+      document.getElementById("numtwotables").value = 0;
+      table2.push(0);
+      localStorage.setItem('table2', JSON.stringify(table2));
+
+
+      table4 = JSON.parse(localStorage.getItem('table4')) || [];
+      document.getElementById("numfourtables").value = 4;
+      table4.push(4);
+      localStorage.setItem('table4', JSON.stringify(table4));
+      
+
+      table6 = JSON.parse(localStorage.getItem('table6')) || [];
+      document.getElementById("numsixtables").value = 0;
+      table6.push(0);
+      localStorage.setItem('table6', JSON.stringify(table6));
+    }
+    else if (value == 6)
+    {
+
+      table2 = JSON.parse(localStorage.getItem('table2')) || [];
+      document.getElementById("numtwotables").value = 0;
+      table2.push(0);
+      localStorage.setItem('table2', JSON.stringify(table2));
+
+
+      table4 = JSON.parse(localStorage.getItem('table4')) || [];
+      document.getElementById("numfourtables").value = 0;
+      table4.push(0);
+      localStorage.setItem('table4', JSON.stringify(table4));
+
+
+      table6 = JSON.parse(localStorage.getItem('table6')) || [];
+      document.getElementById("numsixtables").value = 6;
+      table6.push(6);
+      localStorage.setItem('table6', JSON.stringify(table6));
+    }
+    
+    var flag1 = false;
+    var flag2 = false;
+    var flag3 = false;
+    if (document.getElementById("numsixtables").value > 0)
+    {
+        flag1 = true;
+    }
+    if (document.getElementById("numfourtables").value > 0)
+    {
+        flag2 = true;
+    }
+    if (document.getElementById("numtwotables").value > 0)
+    {
+        flag3 = true;
+    }
+
+    if ((flag1 == true && flag2 == true) || (flag2 == true && flag3 == true) || (flag1 == true && flag3 == true))
+    {
+        alert("Tables have to be combined!");
+        tablesCombined = JSON.parse(localStorage.getItem('tablesCombined')) || [];
+        tablesCombined.push("Yes");
+        localStorage.setItem('tablesCombined', JSON.stringify(tablesCombined));
+    }
+    else
+    {
+        tablesCombined = JSON.parse(localStorage.getItem('tablesCombined')) || [];
+        tablesCombined.push("No");
+        localStorage.setItem('tablesCombined', JSON.stringify(tablesCombined));
+    }
+  
+    paymentMethod = JSON.parse(localStorage.getItem('paymentMethod')) || [];
+  if (paymentTypeVal() == 1)
+  {
+    paymentMethod.push("Cash");
+  }
+  else if (paymentTypeVal() == 2)
+  {
+    paymentMethod.push("Credit");
+  }
+  else if (paymentTypeVal() == 3)
+  {
+    paymentMethod.push("Check");
+  }
+  else
+  {
+    paymentMethod.push("No payment method selected");
+  }
+  localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
+
+
+    Time = JSON.parse(localStorage.getItem('Time')) || [];
+    Time.push(document.getElementById('res').value);
+    localStorage.setItem('Time', JSON.stringify(Time));
+    highTraffic();
+    window.location.href = "reservationconfirmation.html";
+}
+
+
+function reservationConfirmed()
+{
+  document.write("Hello " + guestName[guestName.length - 1] + "!,");
+  document.write("Please see your reservation details below:\n");
+  document.write("Reservation date: " + Time[Time.length - 1] + "\n");
+  document.write("Number of Guests: " + numGuests[numGuests.length - 1] + "\n");
+  document.write("Payment Method: " + paymentMethod[paymentMethod.length - 1] + "\n");
+  document.write("Hold Fee: " + holdFee[holdFee.length - 1] + "\n");
 }

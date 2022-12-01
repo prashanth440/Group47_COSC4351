@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ABC Restaurant1</title>
+    <script src = "index.js"></script>
   </head>
   <body>
     <form>
@@ -42,8 +43,23 @@
             <input type="number" id="numsixtables" name="numsixtables" min="1" max="10" required>
 
           <hr>
+          <label><b>Choose preferred payment method.</b></label>
+  <br>
+        <!-- <center> -->
+        
+        <input type="radio" id="cash" name="payMeth" value="cash">
+        <g for="cash">Cash</g><br>
+        <input type="radio" id="credit" name="payMeth" value="credit">
+        <g for="credit">Credit</g><br>
+        <input type="radio" id="check" name="payMeth" value="check">
+        <g for="check">Check</g>
+
+      <!-- </center> -->
+    </p>
+      
+      <hr>
           <br>
-          <button type="submit" class="submit">Submit</button>
+          <button type="button" class="submit" onclick="guestTableSelect()">Submit</button>
           <br>
           <br>
           <p><a href="home.html">Back to Home Page</a></p>
