@@ -15,6 +15,7 @@ Updates as of Thursday Dec. 1st
 3) Input validation completed and works fully for the registration page
 4) Table reservation system works, output on confirmation page may need to be formatted better
 5) Overall, project is ready for demo
+6) Added date and phone validation
 
 Dynamic arrays are defined above (work still in progress)
 1) checkUser
@@ -280,21 +281,21 @@ function tableSelect()
     {
         table2 = JSON.parse(localStorage.getItem('table2')) || [];
         document.getElementById("usernumtwotables").value = 2;
-        table2.push(2);
+        table2.push(1);
         localStorage.setItem('table2', JSON.stringify(table2));
     }
     else if (value == 4)
     {
         table4 = JSON.parse(localStorage.getItem('table4')) || [];
         document.getElementById("usernumfourtables").value = 4;
-        table4.push(4);
+        table4.push(1);
         localStorage.setItem('table4', JSON.stringify(table4));
     }
     else if (value == 6)
     {
         table6 = JSON.parse(localStorage.getItem('table6')) || [];
         document.getElementById("usernumsixtables").value = 6;
-        table6.push(6);
+        table6.push(1);
         localStorage.setItem('table6', JSON.stringify(table6));
     }
     
@@ -352,7 +353,9 @@ function highTraffic()
 }
 
 function guestTableSelect()
-{   
+{  
+  checkPhone();
+  dateValidation();
   guestName = JSON.parse(localStorage.getItem('guestName')) || [];
   guestName.push(document.getElementById("guestname").value);
   localStorage.setItem('guestName', JSON.stringify(guestName));
@@ -375,7 +378,7 @@ function guestTableSelect()
     {
         table2 = JSON.parse(localStorage.getItem('table2')) || [];
         document.getElementById("numtwotables").value = 2;
-        table2.push(2);
+        table2.push(1);
         localStorage.setItem('table2', JSON.stringify(table2));
       
 
@@ -401,7 +404,7 @@ function guestTableSelect()
 
       table4 = JSON.parse(localStorage.getItem('table4')) || [];
       document.getElementById("numfourtables").value = 4;
-      table4.push(4);
+      table4.push(1);
       localStorage.setItem('table4', JSON.stringify(table4));
       
 
@@ -427,7 +430,7 @@ function guestTableSelect()
 
       table6 = JSON.parse(localStorage.getItem('table6')) || [];
       document.getElementById("numsixtables").value = 6;
-      table6.push(6);
+      table6.push(1);
       localStorage.setItem('table6', JSON.stringify(table6));
     }
     
@@ -484,17 +487,62 @@ function guestTableSelect()
     Time = JSON.parse(localStorage.getItem('Time')) || [];
     Time.push(document.getElementById('res').value);
     localStorage.setItem('Time', JSON.stringify(Time));
-    highTraffic();
+  highTraffic();
+  if (checkPhone() == 1 || dateValidation() == 1)
+  {
+    window.location.href = "guestlogin.html";
+  }
+  else
+  {
     window.location.href = "reservationconfirmation.html";
+  }
+    
 }
 
 
 function reservationConfirmed()
 {
-  document.write("Hello " + guestName[guestName.length - 1] + "!,");
-  document.write("Please see your reservation details below:\n");
-  document.write("Reservation date: " + Time[Time.length - 1] + "\n");
-  document.write("Number of Guests: " + numGuests[numGuests.length - 1] + "\n");
-  document.write("Payment Method: " + paymentMethod[paymentMethod.length - 1] + "\n");
-  document.write("Hold Fee: " + holdFee[holdFee.length - 1] + "\n");
+  // Format this better...
+  document.write("<div style='font-family:Arial'> Hello " + guestName[guestName.length - 1] + "!,</div>");
+  document.write("<div style='font-family:Arial'> Please see your reservation details below:\n </div>");
+  document.write("<div style='font-family:Arial'> Reservation date: " + Time[Time.length - 1] + "\n</div>");
+  document.write("<div style='font-family:Arial'> Number of Guests: " + numGuests[numGuests.length - 1] + "\n</div>");
+  document.write("<div style='font-family:Arial'> Payment Method: " + paymentMethod[paymentMethod.length - 1] + "\n</div>");
+  document.write("<div style='font-family:Arial'> Hold Fee: " + holdFee[holdFee.length - 1] + "\n</div>");
 }
+
+function checkPhone()
+{
+  if (document.getElementById("guestphone").value.length > 10)
+  {
+    alert("Please enter a valid phone number");
+    return 1;
+  }
+  return 0;
+}
+
+function dateValidation()
+{
+  var date_time = document.getElementById('res').value;
+  if (date_time[2] != 2)
+  {
+    if (date_time[3] < 2 || date_time[3] > 3)
+    {
+      alert("Please enter valid date and time.");
+      return 1;
+    }  
+  }
+  else if (date_time[2] == 2)
+  {
+    if (date_time[3] < 2 || date_time[3] > 3)
+    {
+      alert("Please enter valid date and time.");
+      return 1;
+    }  
+  }
+  else
+  {
+    return 0;
+  }
+}
+   
